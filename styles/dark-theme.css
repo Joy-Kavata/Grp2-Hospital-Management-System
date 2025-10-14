@@ -1,0 +1,23 @@
+.root {
+    -fx-font-family: "Segoe UI";
+}
+
+.button {
+    -fx-background-color: #0F4C75;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-background-color: #3282B8;
+}
+
+.table-view {
+    -fx-background-color: #2E2E2E;
+    -fx-text-fill: white;
+}
+
+.label {
+    -fx-text-fill: white;
+}
