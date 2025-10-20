@@ -10,9 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.sql.*;
 
-import javax.swing.table.TableColumn;
-import javax.swing.text.TableView;
-
 public class HospitalDashboard extends Application {
 
     private TableView<Patient> patientTable = new TableView<>();
@@ -82,18 +79,23 @@ public class HospitalDashboard extends Application {
 
         Label title = createTitle("👨‍⚕️ Patients");
 
+        // --- Input Fields ---
         TextField tfName = new TextField();
         tfName.setPromptText("Full Name");
+        tfName.setPrefWidth(200);
 
         TextField tfAge = new TextField();
         tfAge.setPromptText("Age");
+        tfAge.setPrefWidth(80);
 
         ComboBox<String> cbGender = new ComboBox<>();
         cbGender.getItems().addAll("Male", "Female");
         cbGender.setPromptText("Gender");
+        cbGender.setPrefWidth(120);
 
+        // --- Buttons ---
         Button btnAdd = new Button("Add Patient");
-        btnAdd.setStyle("-fx-background-color: #0F4C75; -fx-text-fill: white;");
+        btnAdd.setStyle("-fx-background-color: #0F4C75; -fx-text-fill: white; -fx-font-weight: bold;");
         btnAdd.setOnAction(e -> {
             String name = tfName.getText();
             String ageText = tfAge.getText();
@@ -116,9 +118,8 @@ public class HospitalDashboard extends Application {
             }
         });
 
-
         Button btnDelete = new Button("Delete Selected");
-        btnDelete.setStyle("-fx-background-color: #990000; -fx-text-fill: white;");
+        btnDelete.setStyle("-fx-background-color: #990000; -fx-text-fill: white; -fx-font-weight: bold;");
         btnDelete.setOnAction(e -> {
             Patient selected = patientTable.getSelectionModel().getSelectedItem();
             if (selected == null) {
@@ -137,7 +138,7 @@ public class HospitalDashboard extends Application {
         });
 
         Button btnAssign = new Button("Assign Doctor");
-        btnAssign.setStyle("-fx-background-color: #00695C; -fx-text-fill: white;");
+        btnAssign.setStyle("-fx-background-color: #00695C; -fx-text-fill: white; -fx-font-weight: bold;");
         btnAssign.setOnAction(e -> {
             Patient selected = patientTable.getSelectionModel().getSelectedItem();
             if (selected == null) {
@@ -147,9 +148,12 @@ public class HospitalDashboard extends Application {
             showAssignDoctorDialog(selected);
         });
 
-        HBox form = new HBox(10, tfName, tfAge, cbGender, btnAdd, btnDelete, btnAssign);
+        // --- HBox to align all elements in one row ---
+        HBox form = new HBox(10);
+        form.getChildren().addAll(tfName, tfAge, cbGender, btnAdd, btnDelete, btnAssign);
         form.setPadding(new Insets(10, 0, 10, 0));
 
+        // --- Patient Table ---
         TableColumn<Patient, Integer> colId = new TableColumn<>("ID");
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -266,7 +270,8 @@ public class HospitalDashboard extends Application {
             loadDoctors();
         });
 
-        HBox form = new HBox(10, tfName, tfSpec, btnAdd, btnDelete);
+        HBox form = new HBox(10);
+        form.getChildren().addAll(tfName, tfSpec, btnAdd, btnDelete);
         form.setPadding(new Insets(10, 0, 10, 0));
 
         TableColumn<Doctor, Integer> colId = new TableColumn<>("ID");
