@@ -1,4 +1,6 @@
-public class Patient {
+import java.io.Serializable;
+
+public class Patient implements Serializable {
     private int id;
     private String fullName;
     private int age;
@@ -7,6 +9,8 @@ public class Patient {
     private String doctor;
     private int doctorId;
     private String status;
+
+    public Patient() {}
 
     public Patient(int id, String fullName, int age, String gender, String bill, String doctor, int doctorId, String status) {
         this.id = id;
@@ -30,4 +34,5 @@ public class Patient {
 
     public void setDoctor(String doctor) { this.doctor = doctor; }
     public void setDoctorId(int doctorId) { this.doctorId = doctorId; }
+    public void setStatus(String status) { this.status = status; }
 }
