@@ -1,6 +1,9 @@
+package backend;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import backend.*;
 
 public class PatientDAO {
 
@@ -14,7 +17,7 @@ public class PatientDAO {
             stmt.setInt(2, patient.getAge());
             stmt.setString(3, patient.getGender());
             stmt.setString(4, patient.getStatus());
-            stmt.setDouble(5, patient.getBill());
+            stmt.setString(5, patient.getBill());
 
             int rows = stmt.executeUpdate();
             System.out.println("✅ Patient added successfully (" + rows + " row(s)).");
@@ -100,7 +103,7 @@ public class PatientDAO {
                     " | Age: " + rs.getInt("age") +
                     " | Gender: " + rs.getString("gender") +
                     " | Status: " + rs.getString("status") +
-                    " | Bill: " + rs.getDouble("bill")
+                    " | Bill: " + rs.getString("bill")
                 );
             }
         } catch (SQLException e) {

@@ -1,6 +1,9 @@
+package backend;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import backend.*;
 
 public class HospitalServiceImpl extends UnicastRemoteObject implements HospitalService {
 

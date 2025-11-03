@@ -1,6 +1,9 @@
+package backend;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import backend.*;
 
 public interface HospitalService extends Remote {
     // Doctors

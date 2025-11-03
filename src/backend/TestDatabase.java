@@ -1,4 +1,6 @@
+package backend;
 import java.sql.*;
+import backend.*;
 
 public class TestDatabase {
     public static void main(String[] args) {

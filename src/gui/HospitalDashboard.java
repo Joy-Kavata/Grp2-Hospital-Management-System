@@ -1,3 +1,9 @@
+package gui;
+import backend.Patient;
+import backend.Doctor;
+import backend.DatabaseConnection;
+import backend.Billing;
+import backend.BillingDAO;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,12 +14,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
 import java.sql.*;
+
+
 
 public class HospitalDashboard extends Application {
 
     private TableView<Patient> patientTable = new TableView<>();
     private TableView<Doctor> doctorTable = new TableView<>();
+    private TableView<Billing> billingTable = new TableView<>();
+
 
     @Override
     public void start(Stage stage) {
@@ -51,7 +62,12 @@ public class HospitalDashboard extends Application {
             loadDoctors();
         });
 
-        btnBilling.setOnAction(e -> showInfo("Billing section coming soon."));
+        Pane billingPane = createBillingPane();
+        btnBilling.setOnAction(e -> {
+            content.getChildren().setAll(billingPane);
+            loadBilling();
+        });
+
 
         content.getChildren().setAll(patientsPane);
 
@@ -290,6 +306,54 @@ public class HospitalDashboard extends Application {
         return box;
     }
 
+    private Pane createBillingPane() {
+        VBox box = new VBox(15);
+        box.setPadding(new Insets(20));
+        box.setStyle("-fx-background-color: #1E1E1E;");
+
+        Label title = createTitle("💰 Billing");
+
+        // --- Table Columns ---
+        TableColumn<Billing, Integer> colId = new TableColumn<>("Bill ID");
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        TableColumn<Billing, String> colPatient = new TableColumn<>("Patient");
+        colPatient.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+
+        TableColumn<Billing, String> colAmount = new TableColumn<>("Amount");
+        colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+
+        TableColumn<Billing, String> colStatus = new TableColumn<>("Status");
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        billingTable.getColumns().setAll(colId, colPatient, colAmount, colStatus);
+        billingTable.setPrefHeight(500);
+
+        // --- Buttons ---
+        Button btnAddBill = new Button("Add Bill");
+        btnAddBill.setStyle("-fx-background-color: #0F4C75; -fx-text-fill: white; -fx-font-weight: bold;");
+        btnAddBill.setOnAction(e -> showAddBillDialog());
+
+        Button btnMarkPaid = new Button("Mark as Paid");
+        btnMarkPaid.setStyle("-fx-background-color: #00695C; -fx-text-fill: white; -fx-font-weight: bold;");
+        btnMarkPaid.setOnAction(e -> {
+            Billing selected = billingTable.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                alert("Please select a bill to mark as paid.");
+                return;
+            }
+            BillingDAO.markBillAsPaid(selected.getPatientId());
+            showInfo("Bill marked as paid successfully!");
+            loadBilling();
+        });
+
+        HBox buttons = new HBox(10, btnAddBill, btnMarkPaid);
+        buttons.setPadding(new Insets(10, 0, 10, 0));
+
+        box.getChildren().addAll(title, buttons, billingTable);
+        return box;
+    }
+
     private void addPatient(String name, int age, String gender) {
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement ps = conn.prepareStatement(
@@ -331,9 +395,8 @@ public class HospitalDashboard extends Application {
                         rs.getString("full_name"),
                         rs.getInt("age"),
                         rs.getString("gender"),
-                        rs.getString("bill"),
                         rs.getString("doctor"),
-                        rs.getInt("doctor_id"),
+                        rs.getString("bill"),
                         rs.getString("status")
                 ));
             }
@@ -362,6 +425,92 @@ public class HospitalDashboard extends Application {
             alert("Error loading doctors.");
         }
     }
+
+    private void loadBilling() {
+        ObservableList<Billing> data = FXCollections.observableArrayList();
+        String sql = "SELECT b.id, p.full_name AS patient_name, b.patient_id, b.amount, b.status " +
+                    "FROM Billing b JOIN Patients p ON b.patient_id = p.id";
+
+        try (Connection conn = DatabaseConnection.connect();
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                data.add(new Billing(
+                    rs.getInt("id"),
+                    rs.getInt("patient_id"),
+                    rs.getString("patient_name"),
+                    rs.getString("amount"),
+                    rs.getString("status")
+                ));
+            }
+            billingTable.setItems(data);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert("Error loading billing data.");
+        }
+    }
+
+    private void showAddBillDialog() {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Add New Bill");
+        dialog.setHeaderText("Select a Patient and Enter Amount");
+
+        ComboBox<Patient> cbPatients = new ComboBox<>();
+        cbPatients.setItems(loadPatientList());
+        cbPatients.setPromptText("Select Patient");
+        cbPatients.setPrefWidth(250);
+
+        TextField tfAmount = new TextField();
+        tfAmount.setPromptText("Amount");
+
+        VBox vbox = new VBox(10, cbPatients, tfAmount);
+        dialog.getDialogPane().setContent(vbox);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        dialog.setResultConverter(button -> {
+            if (button == ButtonType.OK && cbPatients.getValue() != null && !tfAmount.getText().isEmpty()) {
+                try {
+                    int patientId = cbPatients.getValue().getId();
+                    double amount = Double.parseDouble(tfAmount.getText());
+
+                    // ✅ Insert into the Billing table
+                    BillingDAO.addBill(patientId, amount);
+
+                    alert("Bill added successfully!");
+                    loadBilling(); // ✅ Refresh table after insertion
+
+                } catch (NumberFormatException ex) {
+                    alert("Please enter a valid numeric amount.");
+                }
+            }
+            return null;
+        });
+
+        dialog.showAndWait();
+    }
+
+    private ObservableList<Patient> loadPatientList() {
+        ObservableList<Patient> patients = FXCollections.observableArrayList();
+        try (Connection conn = DatabaseConnection.connect();
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("SELECT id, full_name, age, gender, doctor, bill, status FROM Patients")) {
+            while (rs.next()) {
+                patients.add(new Patient(
+                    rs.getInt("id"),
+                    rs.getString("full_name"),
+                    rs.getInt("age"),
+                    rs.getString("gender"),
+                    rs.getString("doctor"),
+                    rs.getString("bill"),
+                    rs.getString("status")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return patients;
+    }
+
 
     private void deletePatient(int id) {
         try (Connection conn = DatabaseConnection.connect();

@@ -1,3 +1,5 @@
+package backend;
+
 public class Patient implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -6,14 +8,14 @@ public class Patient implements java.io.Serializable {
     private int age;
     private String gender;
     private String doctor;
-    private double bill;
+    private String bill;
     private String status; // ✅ New field
 
     // No-argument constructor
     public Patient() {}
 
     // Parameterized constructor
-    public Patient(int id, String fullName, int age, String gender, String doctor, double bill, String status) {
+    public Patient(int id, String fullName, int age, String gender, String doctor, String bill, String status) {
         this.id = id;
         this.fullName = fullName;
         this.age = age;
@@ -59,10 +61,10 @@ public class Patient implements java.io.Serializable {
         this.doctor = doctor;
     }
 
-    public double getBill() {
+    public String getBill() {
         return bill;
     }
-    public void setBill(double bill) {
+    public void setBill(String bill) {
         this.bill = bill;
     }
 

@@ -1,6 +1,9 @@
+package backend;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
+
+import backend.*;
 
 public class HospitalClient {
     public static void main(String[] args) {
