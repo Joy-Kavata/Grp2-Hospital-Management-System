@@ -1,38 +1,80 @@
-import java.io.Serializable;
+public class Patient implements java.io.Serializable {
+    private static final long serialVersionUID = 1L;
 
-public class Patient implements Serializable {
     private int id;
     private String fullName;
     private int age;
     private String gender;
-    private String bill;
     private String doctor;
-    private int doctorId;
-    private String status;
+    private double bill;
+    private String status; // ✅ New field
 
+    // No-argument constructor
     public Patient() {}
 
-    public Patient(int id, String fullName, int age, String gender, String bill, String doctor, int doctorId, String status) {
+    // Parameterized constructor
+    public Patient(int id, String fullName, int age, String gender, String doctor, double bill, String status) {
         this.id = id;
         this.fullName = fullName;
         this.age = age;
         this.gender = gender;
-        this.bill = bill;
         this.doctor = doctor;
-        this.doctorId = doctorId;
+        this.bill = bill;
         this.status = status;
     }
 
-    public int getId() { return id; }
-    public String getFullName() { return fullName; }
-    public int getAge() { return age; }
-    public String getGender() { return gender; }
-    public String getBill() { return bill; }
-    public String getDoctor() { return doctor; }
-    public int getDoctorId() { return doctorId; }
-    public String getStatus() { return status; }
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public void setDoctor(String doctor) { this.doctor = doctor; }
-    public void setDoctorId(int doctorId) { this.doctorId = doctorId; }
-    public void setStatus(String status) { this.status = status; }
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getDoctor() {
+        return doctor;
+    }
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
+    }
+
+    public double getBill() {
+        return bill;
+    }
+    public void setBill(double bill) {
+        this.bill = bill;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return fullName + " (" + gender + ", " + age + ", " + status + ")";
+    }
 }

@@ -1,23 +1,47 @@
-import java.io.Serializable;
-
-public class Doctor implements Serializable {
-    private static final long serialVersionUID = 1L;  
+public class Doctor implements java.io.Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
-    private String fullName;
-    private String specialty;
+    private String name;
+    private String specialization;
 
-    public Doctor(int id, String fullName, String specialty) {
+    // No-argument constructor
+    public Doctor() {}
+
+    // Parameterized constructor
+    public Doctor(int id, String name, String specialization) {
         this.id = id;
-        this.fullName = fullName;
-        this.specialty = specialty;
+        this.name = name;
+        this.specialization = specialization;
     }
 
-    public int getId() { return id; }
-    public String getFullName() { return fullName; }
-    public String getSpecialty() { return specialty; }
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setFullName(String name) {
+        this.name = name;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+    public String getFullName() {
+        return name;
+    }
+
 
     @Override
     public String toString() {
-        return fullName + " (" + specialty + ")";
+        return name + " (" + specialization + ")";
     }
 }

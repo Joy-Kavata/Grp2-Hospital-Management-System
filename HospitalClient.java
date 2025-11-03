@@ -1,31 +1,41 @@
-import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.List;
 
 public class HospitalClient {
     public static void main(String[] args) {
         try {
-            HospitalService service = (HospitalService) Naming.lookup("rmi://localhost/HospitalService");
+            // Connect to RMI registry
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            HospitalService service = (HospitalService) registry.lookup("HospitalService");
 
-            // Add sample data
-            service.addDoctor(new Doctor(1, "Dr. Mercy Wangari", "Pediatrics"));
-            service.addDoctor(new Doctor(2, "Dr. David Ochieng", "Orthopedics"));
-
-            service.addPatient(new Patient(1, "Alice Mwikali", 24, "Female", "Ksh 3,500", "Dr. Mercy Wangari", 1, "Admitted"));
-            service.addPatient(new Patient(2, "John Mutua", 41, "Male", "Ksh 5,000", "Dr. David Ochieng", 2, "Discharged"));
-
-            // Display results
-            System.out.println("\n--- Doctors ---");
-            for (Doctor doc : service.getAllDoctors()) {
-                System.out.println(doc);
+            System.out.println("\n=== 🏥 Doctors in the System ===");
+            List<Doctor> doctors = service.getAllDoctors();
+            if (doctors == null || doctors.isEmpty()) {
+                System.out.println("⚠️ No doctors found in the database.");
+            } else {
+                for (Doctor d : doctors) {
+                    System.out.println("- ID: " + d.getId() +
+                                       " | Name: " + d.getName() +
+                                       " | Specialty: " + d.getSpecialization());
+                }
             }
 
-            System.out.println("\n--- Patients ---");
-            for (Patient pat : service.getAllPatients()) {
-                System.out.println(pat.getFullName() + " (" + pat.getDoctor() + ")");
+            System.out.println("\n=== 👩‍⚕️ Patients in the System ===");
+            List<Patient> patients = service.getAllPatients();
+            if (patients == null || patients.isEmpty()) {
+                System.out.println("⚠️ No patients found in the database.");
+            } else {
+                for (Patient p : patients) {
+                    System.out.println("- ID: " + p.getId() +
+                                       " | Name: " + p.getFullName() +
+                                       " | Gender: " + p.getGender() +
+                                       " | Age: " + p.getAge());
+                }
             }
-
-            System.out.println("\nServer Message: " + service.getServerStatus());
 
         } catch (Exception e) {
+            System.err.println("❌ Error in HospitalClient:");
             e.printStackTrace();
         }
     }

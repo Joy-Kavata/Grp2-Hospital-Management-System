@@ -1,42 +1,41 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HospitalServiceImpl extends UnicastRemoteObject implements HospitalService {
 
-    private final List<Doctor> doctors;
-    private final List<Patient> patients;
+    private DoctorDAO doctorDAO;
+    private PatientDAO patientDAO;
 
     public HospitalServiceImpl() throws RemoteException {
-        doctors = new ArrayList<>();
-        patients = new ArrayList<>();
+        super();
+        doctorDAO = new DoctorDAO();
+        patientDAO = new PatientDAO();
     }
 
     @Override
     public void addDoctor(Doctor doctor) throws RemoteException {
-        doctors.add(doctor);
-        System.out.println("Doctor added: " + doctor.getFullName());
+        // Use DAO to persist doctor; DAO expects (fullName, specialty)
+        doctorDAO.addDoctor(doctor.getFullName(), doctor.getSpecialization());
     }
 
     @Override
     public List<Doctor> getAllDoctors() throws RemoteException {
-        return doctors;
+        return doctorDAO.getAllDoctorsFromDB();
     }
 
     @Override
     public void addPatient(Patient patient) throws RemoteException {
-        patients.add(patient);
-        System.out.println("Patient added: " + patient.getFullName());
+        patientDAO.addPatient(patient);
     }
 
     @Override
     public List<Patient> getAllPatients() throws RemoteException {
-        return patients;
+        return patientDAO.getAllPatientsFromDB();
     }
 
     @Override
     public String getServerStatus() throws RemoteException {
-        return "Hospital RMI Server is up and running...";
+        return "✅ Hospital Server is running smoothly and connected to SQL Server.";
     }
 }
