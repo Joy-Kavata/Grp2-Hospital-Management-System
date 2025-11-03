@@ -13,6 +13,7 @@ This project helps in managing hospital operations such as patient registration,
 - [Installation & Setup](#installation--setup)
 - [Running the Project](#running-the-project)
 - [License](#license)
+- [Notes](#notes)
 
 ---
 
@@ -56,6 +57,7 @@ All operations are handled using **RMI** for client-server communication and **S
 ---
 
 ## Project Structure
+``` text
 hospital-managent-system
 │   README.md
 │   run.bat
@@ -118,6 +120,7 @@ hospital-managent-system
 │
 └───styles
         dark-theme.css
+```
 
 ---
 
@@ -155,8 +158,12 @@ run.bat
 
 - This project is for academic use and built as part of a group coursework project.
 
+---
+
 ## Notes
 
 - Ensure the RMI server is running before launching the client.
 - Make sure the correct JDBC driver and JavaFX SDK paths are configured in your IDE.
 - If you face module errors, check that JavaFX libraries are correctly referenced.
+
+---
