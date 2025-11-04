@@ -9,7 +9,7 @@ public class Patient implements java.io.Serializable {
     private String gender;
     private String doctor;
     private String bill;
-    private String status; // ✅ New field
+    private String status;
 
     // No-argument constructor
     public Patient() {}
