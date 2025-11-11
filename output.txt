@@ -1,0 +1,2 @@
+Hospital Management System Log:
+Patient records updated successfully!

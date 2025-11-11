@@ -1,0 +1,10 @@
+=== Hospital Patients Report ===
+ID	Name	Age	Gender	Doctor	Status	Bill
+------------------------------------------
+1	Dolla Signi	30	Male	Dr. Dennis Kim	Paid	3000.0
+2	Dolla Signi	30	Male	Dr. Freddy Walter	Paid	0.0
+3	Sony wen	34	F	Dr. Anita Wekesa	Paid	0.0
+4	Brian Mune	32	M	Not Assigned	Pending	0.0
+5	Wilson Burale	56	M	Not Assigned	Pending	6700.0
+6	Rose Boll	32	F	Not Assigned	Pending	0.0
+7	John Doe	25	M	Not Assigned	Pending	0.0
