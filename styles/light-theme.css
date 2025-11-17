@@ -1,0 +1,165 @@
+:root {
+  -sidebar-bg: #f5f7fa;
+
+  -panel-bg: #ffffff;
+
+  -accent: #0f4c75;
+
+  -muted: #666;
+
+  -text: #111;
+
+  -card: #fafafa;
+}
+
+.root {
+  -fx-font-family: "Segoe UI", system-ui, Arial;
+
+  -fx-base: #ffffff;
+
+  -fx-control-inner-background: #ffffff;
+}
+
+/* Sidebar */
+
+.sidebar-btn {
+  -fx-background-color: transparent;
+
+  -fx-text-fill: -text;
+
+  -fx-font-weight: bold;
+
+  -fx-padding: 10 12;
+
+  -fx-border-radius: 6;
+
+  -fx-background-radius: 6;
+}
+
+.sidebar-btn:hover {
+  -fx-background-color: derive(-accent, 80%);
+}
+
+/* Buttons */
+
+.button {
+  -fx-background-color: -accent;
+
+  -fx-text-fill: white;
+
+  -fx-background-radius: 8;
+
+  -fx-padding: 8 12;
+
+  -fx-font-weight: bold;
+}
+
+.button:hover {
+  -fx-background-color: derive(-accent, 85%);
+}
+
+/* Tables */
+
+.table-view {
+  -fx-background-color: -card;
+
+  -fx-table-cell-border-color: transparent;
+
+  -fx-control-inner-background: -card;
+
+  -fx-text-fill: -text;
+}
+
+.table-view .column-header,
+.table-view .column-header .label {
+  -fx-text-fill: -muted;
+
+  -fx-font-weight: bold;
+}
+
+/* Labels */
+
+.label {
+  -fx-text-fill: -text;
+}
+
+/* Dialogs & panels */
+
+.dialog-pane {
+  -fx-background-color: -panel-bg;
+
+  -fx-border-radius: 8;
+
+  -fx-background-radius: 8;
+}
+
+/* --- ADD THIS TO BOTTOM OF BOTH CSS FILES --- */
+
+/* Layout Containers */
+
+.sidebar {
+  -fx-background-color: -sidebar-bg;
+}
+
+.content-pane {
+  -fx-background-color: -fx-base;
+}
+
+/* Specific Button Colors */
+
+.btn-danger {
+  -fx-background-color: #990000;
+
+  -fx-text-fill: white;
+}
+
+.btn-danger:hover {
+  -fx-background-color: #cc0000;
+}
+
+.btn-success {
+  -fx-background-color: #00695c;
+
+  -fx-text-fill: white;
+}
+
+.btn-success:hover {
+  -fx-background-color: #00897b;
+}
+
+.title-label {
+  -fx-font-size: 22px;
+
+  -fx-font-weight: bold;
+
+  -fx-text-fill: -text;
+  /* Uses the theme color */
+}
+
+/* --- LOGIN PAGE STYLES --- */
+.login-card {
+  -fx-background-color: -card;
+  -fx-background-radius: 10;
+  -fx-padding: 40;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 15, 0, 0, 5);
+  -fx-alignment: center;
+  -fx-spacing: 20;
+}
+
+.error-label {
+  -fx-text-fill: #d32f2f;
+  /* Dark Red */
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+}
+
+/* List View in Dashboard */
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -text;
+    -fx-padding: 10;
+    -fx-border-color: transparent transparent rgba(255,255,255,0.1) transparent;
+}
+.list-cell:even {
+    -fx-background-color: rgba(255,255,255,0.02);
+}
