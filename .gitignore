@@ -1,0 +1,13 @@
+# Compiled class files
+out/
+*.class
+
+# Logs and temporary files
+*.log
+*.ctxt
+.DS_Store
+
+# IDE specific settings (Optional, but recommended)
+.idea/
+*.iml
+.vscode/

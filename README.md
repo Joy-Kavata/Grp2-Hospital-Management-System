@@ -1,67 +1,80 @@
-# Hospital Management System (Group 2)
+# 🏥 HMS - Hospital Management System (Group 2)
 
-A **Java-based Hospital Management System** built using **JavaFX**, **RMI (Remote Method Invocation)**, and **SQL Server** for database management.  
-This project helps in managing hospital operations such as patient registration, doctor management, billing, and patient history tracking.
-
----
-
-##  Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Project Structure](#project-structure)
-- [Installation & Setup](#installation--setup)
-- [Running the Project](#running-the-project)
-- [License](#license)
-- [Notes](#notes)
+A **modern, Java-based Hospital Management System** built using **JavaFX**, **JDBC**, and **SQL Server**.  
+This project streamlines hospital operations with a responsive dashboard, real-time statistics, and comprehensive patient/doctor management.
 
 ---
 
-##  Overview
+## 📑 Table of Contents
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Technologies Used](#-technologies-used)
+- [Project Structure](#-project-structure)
+- [Installation & Setup](#-installation--setup)
+- [Running the Project](#-running-the-project)
+- [License](#-license)
 
-The Hospital Management System simplifies how hospitals manage their data.  
+---
+
+## 🏥 Overview
+
+**MedFlow** replaces traditional paper-based records with a sleek, digital solution. It features a "SaaS-style" dashboard that gives administrators an immediate overview of hospital health.
+
 It allows hospital staff to:
-- Register patients and doctors  
-- View and update patient records  
-- Generate bills  
-- Manage patient history  
-- Access a graphical dashboard through JavaFX
-
-All operations are handled using **RMI** for client-server communication and **SQL Server** for data storage.
+- **Visualize Data:** View real-time charts and status cards for patients, doctors, and billing.
+- **Manage Records:** Perform full CRUD (Create, Read, Update, Delete) operations on patients and doctors.
+- **Handle Billing:** Create invoices and track payment statuses (Paid/Pending).
+- **Personalize:** Switch between **Dark Mode** and **Light Mode** seamlessly.
 
 ---
 
-##  Features
+## 🌟 Key Features
 
-- **Doctor Management** — Add, update, and view doctors  
-- **Patient Management** — Register and manage patient details  
-- **Billing System** — Generate and view billing records  
-- **Patient History** — Store and retrieve patient history  
-- **Dashboard Interface** — Interactive GUI with JavaFX  
-- **RMI-based Architecture** — Client-server communication  
-- **SQL Server Integration** — Reliable data persistence  
+### 📊 **Modern Dashboard**
+- **Live Statistics Cards:** Real-time counts of Total Patients, Available Doctors, and Pending Bills.
+- **Financial Analytics:** Pie chart visualization of billing status.
+- **Recent Activity Feed:** List of the most recently registered patients.
+- **Quick Actions:** One-click navigation for common tasks.
+
+### 👨‍⚕️ **Patient & Doctor Management**
+- **Registration:** Add new patients and doctors with ease.
+- **Editing:** Update existing records (Names, Specialties, Age, etc.) via pop-up dialogs.
+- **Deletion:** Remove outdated records securely.
+- **Assignment:** Assign specific doctors to patients.
+
+### 🎨 **UI & Experience**
+- **Theming:** Toggle between a professional **Dark Theme** and a clean **Light Theme**.
+- **Responsive Design:** Sidebar navigation with a collapsible/expandable layout.
+- **Animations:** Subtle hover effects on buttons and cards for a polished feel.
+- **Login System:** Secure entry point for administrators.
 
 ---
 
-## Technologies Used
+## 🛠 Technologies Used
 
 | Component | Technology |
 |------------|-------------|
-| Programming Language | Java (JDK 11 or higher) |
-| GUI Framework | JavaFX |
-| Database | Microsoft SQL Server |
-| Communication | Java RMI (Remote Method Invocation) |
-| Styling | CSS (dark-theme.css) |
-| JDBC Driver | mssql-jdbc-13.2.0.jre11.jar |
+| **Language** | Java (JDK 21+) |
+| **Frontend** | JavaFX (Controls, FXML, CSS) |
+| **Database** | Microsoft SQL Server |
+| **Connectivity** | JDBC (mssql-jdbc) |
+| **Architecture** | MVC (Model-View-Controller) Pattern |
+| **Styling** | Custom CSS (`dark-theme.css`, `light-theme.css`) |
 
 ---
 
-## Project Structure
-``` text
+## 📂 Project Structure
+
+```text
 hospital-managent-system
+C:.
+│   output.txt
+│   patient.ser
+│   patients.ser
+│   patients_report.txt
 │   README.md
 │   run.bat
-│   
+│
 ├───javafx
 │   └───lib
 │           javafx-swt.jar
@@ -80,46 +93,36 @@ hospital-managent-system
 ├───lib
 │       mssql-jdbc-13.2.0.jre11.jar
 │
-├───out
-│   ├───backend
-│   │       Billing.class
-│   │       BillingDAO.class
-│   │       DatabaseConnection.class
-│   │       Doctor.class
-│   │       DoctorDAO.class
-│   │       HospitalClient.class
-│   │       HospitalServer.class
-│   │       HospitalService.class
-│   │       HospitalServiceImpl.class
-│   │       Patient.class
-│   │       PatientDAO.class
-│   │       PatientHistoryDAO.class
-│   │       TestDatabase.class
-│   │
-│   └───gui
-│           HospitalDashboard.class
-│
 ├───src
 │   ├───backend
-│   │       Billing.java
-│   │       BillingDAO.java
-│   │       DatabaseConnection.java
-│   │       Doctor.java
-│   │       DoctorDAO.java
-│   │       HospitalClient.java
-│   │       HospitalServer.java
-│   │       HospitalService.java
-│   │       HospitalServiceImpl.java
-│   │       Patient.java
-│   │       PatientDAO.java
-│   │       PatientHistoryDAO.java
-│   │       TestDatabase.java
+│   │   │   Billing.java
+│   │   │   BillingDAO.java
+│   │   │   DatabaseConnection.java
+│   │   │   Doctor.java
+│   │   │   DoctorDAO.java
+│   │   │   HospitalClient.java
+│   │   │   HospitalServer.java
+│   │   │   HospitalService.java
+│   │   │   HospitalServiceImpl.java
+│   │   │   LoginDAO.java
+│   │   │   Patient.java
+│   │   │   PatientDAO.java
+│   │   │   PatientFileExporter.java
+│   │   │   PatientHistoryDAO.java
+│   │   │   PatientSerializationExporter.java
+│   │   │   PatientSerializationLoader.java
+│   │   │   TestDatabase.java
+│   │   │
+│   │   └───models
+│   │           PatientModel.java
 │   │
 │   └───gui
 │           HospitalDashboard.java
+│           LoginPage.java
 │
 └───styles
         dark-theme.css
+        light-theme.css
 ```
 
 ---
@@ -165,5 +168,6 @@ run.bat
 - Ensure the RMI server is running before launching the client.
 - Make sure the correct JDBC driver and JavaFX SDK paths are configured in your IDE.
 - If you face module errors, check that JavaFX libraries are correctly referenced.
+- Login Credentials: Ensure you have the correct admin credentials in your LoginDAO or database.
 
 ---
