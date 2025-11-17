@@ -17,7 +17,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-// Needed for the spacer
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -45,7 +44,7 @@ public class HospitalDashboard extends Application {
         root = new BorderPane();
 
         // --- Sidebar ---
-        VBox sidebar = new VBox(10); // Reduced spacing slightly for tighter look
+        VBox sidebar = new VBox(10); 
         sidebar.setPadding(new Insets(20));
         sidebar.setPrefWidth(240); 
         sidebar.getStyleClass().add("sidebar");
@@ -61,10 +60,10 @@ public class HospitalDashboard extends Application {
         btnTheme.setOnAction(e -> toggleTheme());
 
         Button btnLogout = createNavButton("🚪 Logout");
-        btnLogout.getStyleClass().add("logout-btn"); // Specific class if you want red text in CSS
+        btnLogout.getStyleClass().add("logout-btn"); 
         btnLogout.setOnAction(e -> handleLogout(stage));
 
-        // 3. The Spacer (Pushes bottom controls down)
+        // 3. The Spacer
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
@@ -72,7 +71,7 @@ public class HospitalDashboard extends Application {
             createSidebarHeader(), 
             new Separator(), 
             btnDashboard, btnPatients, btnDoctors, btnBilling, 
-            spacer, // <--- This pushes everything below it to the bottom
+            spacer, 
             new Separator(), 
             btnTheme,
             btnLogout
@@ -273,12 +272,14 @@ public class HospitalDashboard extends Application {
         VBox box = new VBox(15);
         Label title = createTitle("👨‍⚕️ Patient Management");
 
+        // 1. Inputs
         TextField tfName = new TextField(); tfName.setPromptText("Full Name"); tfName.setPrefWidth(200);
         TextField tfAge = new TextField(); tfAge.setPromptText("Age"); tfAge.setPrefWidth(80);
         ComboBox<String> cbGender = new ComboBox<>();
         cbGender.getItems().addAll("Male", "Female");
         cbGender.setPromptText("Gender"); cbGender.setPrefWidth(120);
 
+        // 2. Create ALL Buttons FIRST
         Button btnAdd = new Button("Add Patient");
         addHoverAnimation(btnAdd);
         btnAdd.setOnAction(e -> {
@@ -288,6 +289,18 @@ public class HospitalDashboard extends Application {
                 loadPatients();
                 tfName.clear(); tfAge.clear();
             } catch(Exception ex) { alert("Invalid Input"); }
+        });
+
+        Button btnEdit = new Button("Edit Selected");
+        btnEdit.setStyle("-fx-background-color: #F57C00; -fx-text-fill: white; -fx-font-weight: bold;");
+        addHoverAnimation(btnEdit);
+        btnEdit.setOnAction(e -> {
+            Patient selected = patientTable.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                alert("Please select a patient to edit.");
+                return;
+            }
+            showEditPatientDialog(selected);
         });
 
         Button btnDelete = new Button("Delete Selected");
@@ -306,7 +319,8 @@ public class HospitalDashboard extends Application {
             if(p != null) showAssignDoctorDialog(p);
         });
 
-        HBox form = new HBox(10, tfName, tfAge, cbGender, btnAdd, btnDelete, btnAssign);
+        // 3. NOW add them to the HBox (Order matters!)
+        HBox form = new HBox(10, tfName, tfAge, cbGender, btnAdd, btnEdit, btnDelete, btnAssign);
         form.setPadding(new Insets(10,0,10,0));
 
         setupPatientColumns();
@@ -318,9 +332,11 @@ public class HospitalDashboard extends Application {
         VBox box = new VBox(15);
         Label title = createTitle("🩺 Doctor Management");
 
+        // 1. Inputs
         TextField tfName = new TextField(); tfName.setPromptText("Full Name");
         TextField tfSpec = new TextField(); tfSpec.setPromptText("Specialty");
 
+        // 2. Create ALL Buttons FIRST
         Button btnAdd = new Button("Add Doctor");
         addHoverAnimation(btnAdd);
         btnAdd.setOnAction(e -> {
@@ -331,6 +347,18 @@ public class HospitalDashboard extends Application {
             }
         });
 
+        Button btnEdit = new Button("Edit Selected");
+        btnEdit.setStyle("-fx-background-color: #F57C00; -fx-text-fill: white; -fx-font-weight: bold;");
+        addHoverAnimation(btnEdit);
+        btnEdit.setOnAction(e -> {
+            Doctor selected = doctorTable.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                alert("Please select a doctor to edit.");
+                return;
+            }
+            showEditDoctorDialog(selected);
+        });
+
         Button btnDelete = new Button("Delete Selected");
         btnDelete.getStyleClass().add("btn-danger");
         addHoverAnimation(btnDelete);
@@ -339,7 +367,8 @@ public class HospitalDashboard extends Application {
             if(d != null) { deleteDoctor(d.getId()); loadDoctors(); }
         });
 
-        HBox form = new HBox(10, tfName, tfSpec, btnAdd, btnDelete);
+        // 3. NOW add them to the HBox
+        HBox form = new HBox(10, tfName, tfSpec, btnAdd, btnEdit, btnDelete);
         form.setPadding(new Insets(10,0,10,0));
 
         TableColumn<Doctor, Integer> colId = new TableColumn<>("ID"); colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -392,14 +421,12 @@ public class HospitalDashboard extends Application {
     // =================================================================================
 
     private VBox createSidebarHeader() {
-        VBox headerBox = new VBox(5); // 5px spacing between text
-        headerBox.setPadding(new Insets(0, 0, 20, 10)); // Add some padding at bottom
+        VBox headerBox = new VBox(5); 
+        headerBox.setPadding(new Insets(0, 0, 20, 10)); 
 
-        // 1. The Main Logo/Title
         Label appTitle = new Label("🏥 HMS");
         appTitle.setStyle("-fx-text-fill: -text; -fx-font-size: 24px; -fx-font-weight: bold;");
 
-        // 2. The Subtitle (Role or Branch)
         Label subTitle = new Label("Admin Portal");
         subTitle.setStyle("-fx-text-fill: -muted; -fx-font-size: 12px; -fx-font-weight: normal;");
 
@@ -518,13 +545,65 @@ public class HospitalDashboard extends Application {
             if (button == ButtonType.OK && cbPatients.getValue() != null) {
                 try {
                     BillingDAO.addBill(cbPatients.getValue().getId(), Double.parseDouble(tfAmount.getText()));
-                    alert("Bill Created!");
+                    showInfo("Bill Created!");
                     loadBilling();
                 } catch (Exception e) { alert("Invalid Amount"); }
             }
             return null;
         });
         dialog.showAndWait();
+    }
+
+    private void showEditPatientDialog(Patient p) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Edit Patient");
+        dialog.setHeaderText("Editing details for: " + p.getFullName());
+
+        TextField tfName = new TextField(p.getFullName()); 
+        TextField tfAge = new TextField(String.valueOf(p.getAge())); 
+        
+        ComboBox<String> cbGender = new ComboBox<>();
+        cbGender.getItems().addAll("Male", "Female");
+        cbGender.setValue(p.getGender()); 
+
+        VBox content = new VBox(10, new Label("Name:"), tfName, new Label("Age:"), tfAge, new Label("Gender:"), cbGender);
+        dialog.getDialogPane().setContent(content);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        dialog.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    updatePatient(p.getId(), tfName.getText(), Integer.parseInt(tfAge.getText()), cbGender.getValue());
+                    loadPatients(); 
+                } catch (Exception e) {
+                    alert("Invalid input data.");
+                }
+            }
+        });
+    }
+
+    private void showEditDoctorDialog(Doctor d) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Edit Doctor");
+        dialog.setHeaderText("Editing details for: " + d.getFullName());
+
+        TextField tfName = new TextField(d.getFullName()); 
+        TextField tfSpec = new TextField(d.getSpecialization()); 
+
+        VBox content = new VBox(10, new Label("Name:"), tfName, new Label("Specialty:"), tfSpec);
+        dialog.getDialogPane().setContent(content);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        dialog.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                if (!tfName.getText().isEmpty() && !tfSpec.getText().isEmpty()) {
+                    updateDoctor(d.getId(), tfName.getText(), tfSpec.getText());
+                    loadDoctors(); 
+                } else {
+                    alert("Fields cannot be empty.");
+                }
+            }
+        });
     }
 
     private void showAssignDoctorDialog(Patient patient) {
@@ -567,6 +646,38 @@ public class HospitalDashboard extends Application {
         try (Connection c = DatabaseConnection.connect(); PreparedStatement p = c.prepareStatement("INSERT INTO Doctors(full_name, specialty) VALUES (?, ?)")) {
             p.setString(1, name); p.setString(2, spec); p.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    // --- UPDATE LOGIC ---
+    private void updatePatient(int id, String name, int age, String gender) {
+        String sql = "UPDATE Patients SET full_name = ?, age = ?, gender = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ps.setInt(2, age);
+            ps.setString(3, gender);
+            ps.setInt(4, id);
+            ps.executeUpdate();
+            showInfo("Patient updated successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert("Failed to update patient.");
+        }
+    }
+
+    private void updateDoctor(int id, String name, String specialty) {
+        String sql = "UPDATE Doctors SET full_name = ?, specialty = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ps.setString(2, specialty);
+            ps.setInt(3, id);
+            ps.executeUpdate();
+            showInfo("Doctor updated successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert("Failed to update doctor.");
+        }
     }
 
     private void deletePatient(int id) {
