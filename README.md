@@ -1,11 +1,11 @@
-# 🏥 HMS - Hospital Management System (Group 2)
+# HMS - Hospital Management System (Group 2)
 
 A **modern, Java-based Hospital Management System** built using **JavaFX**, **JDBC**, and **SQL Server**.  
 This project streamlines hospital operations with a responsive dashboard, real-time statistics, and comprehensive patient/doctor management.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 - [Overview](#-overview)
 - [Key Features](#-key-features)
 - [Technologies Used](#-technologies-used)
@@ -16,7 +16,7 @@ This project streamlines hospital operations with a responsive dashboard, real-t
 
 ---
 
-## 🏥 Overview
+## Overview
 
 **MedFlow** replaces traditional paper-based records with a sleek, digital solution. It features a "SaaS-style" dashboard that gives administrators an immediate overview of hospital health.
 
@@ -28,21 +28,21 @@ It allows hospital staff to:
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
-### 📊 **Modern Dashboard**
+### **Modern Dashboard**
 - **Live Statistics Cards:** Real-time counts of Total Patients, Available Doctors, and Pending Bills.
 - **Financial Analytics:** Pie chart visualization of billing status.
 - **Recent Activity Feed:** List of the most recently registered patients.
 - **Quick Actions:** One-click navigation for common tasks.
 
-### 👨‍⚕️ **Patient & Doctor Management**
+### **Patient & Doctor Management**
 - **Registration:** Add new patients and doctors with ease.
 - **Editing:** Update existing records (Names, Specialties, Age, etc.) via pop-up dialogs.
 - **Deletion:** Remove outdated records securely.
 - **Assignment:** Assign specific doctors to patients.
 
-### 🎨 **UI & Experience**
+### **UI & Experience**
 - **Theming:** Toggle between a professional **Dark Theme** and a clean **Light Theme**.
 - **Responsive Design:** Sidebar navigation with a collapsible/expandable layout.
 - **Animations:** Subtle hover effects on buttons and cards for a polished feel.
@@ -50,7 +50,7 @@ It allows hospital staff to:
 
 ---
 
-## 🛠 Technologies Used
+## Technologies Used
 
 | Component | Technology |
 |------------|-------------|
@@ -63,7 +63,7 @@ It allows hospital staff to:
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 hospital-managent-system
@@ -124,7 +124,6 @@ C:.
         dark-theme.css
         light-theme.css
 ```
-
 ---
 
 ## Installation & Setup
